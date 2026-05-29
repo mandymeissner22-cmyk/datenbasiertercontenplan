@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onboarding-Fragebogen | Dein Content-Fahrplan</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --cream: #EEF3E9;
+    --warm-white: #FAFCF7;
+    --sand: #C1D0B9;
+    --terracotta: #BD7A54;
+    --terracotta-light: #CE8C66;
+    --terracotta-dark: #9F6340;
+    --forest: #44603F;
+    --forest-light: #5A7651;
+    --gold: #BFAE73;
+    --gold-light: #CFC08A;
+    --charcoal: #2B342A;
+    --text: #353C2E;
+    --text-light: #6E7563;
+    --border: #CDD8C4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.65;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--charcoal);
+    color: var(--cream);
+    padding: 60px 40px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(193,208,185,0.25) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 220px; height: 220px;
+    background: radial-gradient(circle, rgba(191,174,115,0.18) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    font-weight: 500;
+    position: relative; z-index: 1;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero h1 em { font-style: italic; color: var(--terracotta-light); }
+  .hero-sub {
+    font-size: 15px;
+    color: rgba(238,243,233,0.72);
+    max-width: 600px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-meta {
+    display: flex; gap: 14px; flex-wrap: wrap;
+    margin-top: 28px; position: relative; z-index: 1;
+  }
+  .meta-pill {
+    background: rgba(189,122,84,0.18);
+    border: 1px solid rgba(189,122,84,0.4);
+    color: var(--terracotta-light);
+    padding: 7px 16px; border-radius: 40px;
+    font-size: 12.5px; font-weight: 600;
+  }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+
+  /* ── SECTION ── */
+  .section {
+    padding: 44px 0 30px;
+    border-bottom: 1px solid var(--border);
+    animation: rise 0.6s ease both;
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px);} to {opacity:1;transform:none;} }
+  .section-num {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--terracotta); font-weight: 600; margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(20px, 3.2vw, 27px);
+    font-weight: 700; color: var(--charcoal);
+    margin-bottom: 6px; line-height: 1.2;
+  }
+  .section-intro {
+    font-size: 13.5px; color: var(--text-light);
+    margin-bottom: 26px; font-style: italic; max-width: 600px;
+  }
+
+  /* ── FIELDS ── */
+  .field { margin-bottom: 22px; }
+  .field label.q {
+    display: block; font-size: 14.5px; font-weight: 600;
+    color: var(--charcoal); margin-bottom: 4px;
+  }
+  .field .hint {
+    display: block; font-size: 12.5px; color: var(--text-light);
+    margin-bottom: 9px; line-height: 1.45;
+  }
+  .req { color: var(--terracotta); font-weight: 700; }
+
+  input[type="text"], input[type="email"], input[type="url"], input[type="number"], textarea, select {
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14.5px; color: var(--text);
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 12px 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  textarea { resize: vertical; min-height: 86px; line-height: 1.55; }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--terracotta);
+    box-shadow: 0 0 0 3px rgba(189,122,84,0.12);
+  }
+  ::placeholder { color: #B8B2A6; }
+
+  /* ── PILL CHOICES ── */
+  .pills { display: flex; flex-wrap: wrap; gap: 9px; }
+  .pill-choice { position: relative; }
+  .pill-choice input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .pill-choice label {
+    display: inline-block; cursor: pointer;
+    padding: 9px 16px; border-radius: 40px;
+    background: var(--warm-white); border: 1px solid var(--border);
+    font-size: 13px; font-weight: 500; color: var(--text);
+    transition: all 0.18s;
+  }
+  .pill-choice label:hover { border-color: var(--terracotta-light); }
+  .pill-choice input:checked + label {
+    background: var(--terracotta); border-color: var(--terracotta);
+    color: #fff; font-weight: 600;
+  }
+
+  /* ── SUBMIT ── */
+  .submit-wrap { padding: 40px 0 10px; text-align: center; }
+  .btn {
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer; border: none;
+    background: var(--terracotta); color: #fff;
+    font-size: 15px; font-weight: 600;
+    padding: 15px 38px; border-radius: 44px;
+    transition: background 0.2s, transform 0.1s;
+    letter-spacing: 0.3px;
+  }
+  .btn:hover { background: var(--terracotta-dark); }
+  .btn:active { transform: translateY(1px); }
+  .btn.secondary {
+    background: transparent; color: var(--forest);
+    border: 1px solid var(--forest); padding: 12px 26px; font-size: 14px;
+  }
+  .btn.secondary:hover { background: var(--forest); color: #fff; }
+
+  /* ── RESULT ── */
+  .result {
+    display: none; margin: 30px 0 10px;
+    background: var(--warm-white); border: 1px solid var(--border);
+    border-radius: 12px; padding: 26px; border-top: 4px solid var(--forest);
+    animation: rise 0.5s ease both;
+  }
+  .result h3 {
+    font-family: 'Playfair Display', serif; font-size: 21px;
+    color: var(--charcoal); margin-bottom: 6px;
+  }
+  .result p.sub { font-size: 13px; color: var(--text-light); margin-bottom: 18px; }
+  .brief {
+    background: var(--cream); border: 1px solid var(--border);
+    border-radius: 9px; padding: 18px;
+    font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    font-size: 12.5px; line-height: 1.7; color: var(--text);
+    white-space: pre-wrap; max-height: 320px; overflow-y: auto;
+  }
+  .result-actions { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+  .toast {
+    font-size: 12.5px; color: var(--forest); font-weight: 600;
+    margin-top: 12px; opacity: 0; transition: opacity 0.3s;
+  }
+  .toast.show { opacity: 1; }
+
+  .highlight-box {
+    background: linear-gradient(135deg, rgba(189,122,84,0.08), rgba(191,174,115,0.08));
+    border: 1px solid rgba(189,122,84,0.25);
+    border-radius: 10px; padding: 16px 18px; margin: 6px 0 0;
+    font-size: 13px; color: var(--text); line-height: 1.6;
+  }
+  .highlight-box strong { color: var(--terracotta-dark); }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--charcoal); color: rgba(238,243,233,0.6);
+    text-align: center; padding: 28px 24px; font-size: 12px; margin-top: 30px;
+  }
+  .footer strong { color: var(--gold); }
+
+  @media (max-width: 600px) {
+    .hero { padding: 40px 20px 36px; }
+    .container { padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-label">Onboarding · Schritt 1 von 1</p>
+  <h1>Lass uns deinen<br><em>datenbasierten Content-Fahrplan</em><br>erstellen</h1>
+  <p class="hero-sub">Je genauer du diese Fragen beantwortest, desto präziser wird dein individueller Fahrplan. Plane dir ca. 15&nbsp;Minuten ein &ndash; nimm dir Zeit für die Zielgruppen- und Ziel-Fragen, das ist das Herzstück. Deinen fertigen Plan bekommst du innerhalb von 3&nbsp;Tagen.</p>
+  <div class="hero-meta">
+    <span class="meta-pill">⏱️ ca. 15 Minuten</span>
+    <span class="meta-pill">📦 Lieferung in 3 Tagen</span>
+    <span class="meta-pill">🔒 Deine Angaben bleiben vertraulich</span>
+  </div>
+</div>
+
+<div class="container">
+<form id="briefForm">
+
+  <!-- 01 — ÜBER DICH -->
+  <div class="section">
+    <p class="section-num">01 · Über dich &amp; deinen Account</p>
+    <h2 class="section-title">Die Basisdaten</h2>
+    <p class="section-intro">Damit ich weiß, wo du gerade stehst und auf welcher Plattform der Plan greifen soll.</p>
+
+    <div class="field">
+      <label class="q">Wie heißt du / wie soll ich dich ansprechen? <span class="req">*</span></label>
+      <input type="text" name="name" required placeholder="Vorname">
+    </div>
+
+    <div class="field">
+      <label class="q">Auf welcher Plattform soll der Fahrplan greifen? <span class="req">*</span></label>
+      <span class="hint">Wähle deine Haupt-Plattform. Mehrfachauswahl möglich, aber bitte priorisiere.</span>
+      <div class="pills">
+        <span class="pill-choice"><input type="checkbox" name="plattform" value="Instagram" id="p1"><label for="p1">Instagram</label></span>
+        <span class="pill-choice"><input type="checkbox" name="plattform" value="TikTok" id="p2"><label for="p2">TikTok</label></span>
+        <span class="pill-choice"><input type="checkbox" name="plattform" value="Facebook" id="p3"><label for="p3">Facebook</label></span>
+        <span class="pill-choice"><input type="checkbox" name="plattform" value="LinkedIn" id="p4"><label for="p4">LinkedIn</label></span>
+        <span class="pill-choice"><input type="checkbox" name="plattform" value="YouTube" id="p5"><label for="p5">YouTube</label></span>
+        <span class="pill-choice"><input type="checkbox" name="plattform" value="Pinterest" id="p6"><label for="p6">Pinterest</label></span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="q">Link zu deinem Profil <span class="req">*</span></label>
+      <span class="hint">So kann ich deinen aktuellen Stil und deine bisherigen Inhalte einschätzen.</span>
+      <input type="text" name="profil" required placeholder="z. B. instagram.com/deinname">
+    </div>
+
+    <div class="field">
+      <label class="q">Wie viele Follower hast du aktuell (ungefähr)?</label>
+      <input type="text" name="follower" placeholder="z. B. 850">
+    </div>
+
+    <div class="field">
+      <label class="q">Wie lange bist du auf dieser Plattform schon aktiv?</label>
+      <input type="text" name="aktivseit" placeholder="z. B. seit 4 Monaten / noch ganz neu">
+    </div>
+
+    <div class="field">
+      <label class="q">Wie viel Zeit kannst du realistisch pro Woche für Content investieren? <span class="req">*</span></label>
+      <span class="hint">Ehrlich antworten &ndash; danach richtet sich die Posting-Frequenz im Plan.</span>
+      <div class="pills">
+        <span class="pill-choice"><input type="radio" name="zeit" value="bis 2 Std" id="z1"><label for="z1">bis 2 Std</label></span>
+        <span class="pill-choice"><input type="radio" name="zeit" value="2-5 Std" id="z2"><label for="z2">2&ndash;5 Std</label></span>
+        <span class="pill-choice"><input type="radio" name="zeit" value="5-10 Std" id="z3"><label for="z3">5&ndash;10 Std</label></span>
+        <span class="pill-choice"><input type="radio" name="zeit" value="mehr als 10 Std" id="z4"><label for="z4">mehr als 10 Std</label></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 — NISCHE & ANGEBOT -->
+  <div class="section">
+    <p class="section-num">02 · Deine Nische &amp; dein Angebot</p>
+    <h2 class="section-title">Was du anbietest</h2>
+    <p class="section-intro">Die Grundlage für deine Positionierung und die Trend-Analyse deiner Nische.</p>
+
+    <div class="field">
+      <label class="q">Beschreibe deine Nische in einem Satz <span class="req">*</span></label>
+      <input type="text" name="nische" required placeholder="z. B. Network Marketing für Frauen ab 40 im DACH-Raum">
+    </div>
+
+    <div class="field">
+      <label class="q">Was genau bietest du an / verkaufst du? <span class="req">*</span></label>
+      <span class="hint">Produkt, Dienstleistung, Firma, Coaching o. Ä. &ndash; gern konkret.</span>
+      <textarea name="angebot" required placeholder="Was bekommt jemand am Ende von dir?"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="q">Region &amp; Sprache deiner Inhalte</label>
+      <input type="text" name="region" placeholder="z. B. Deutschland, Österreich, Schweiz · Deutsch">
+    </div>
+
+    <div class="field">
+      <label class="q">Wie klar ist dir deine Zielgruppe schon? <span class="req">*</span></label>
+      <span class="hint">Ganz ehrlich &ndash; danach richtet sich, wie ich dich durch die nächsten Fragen führe.</span>
+      <div class="pills">
+        <span class="pill-choice"><input type="radio" name="klarheit" value="Glasklar – ich kenne sie genau" id="kl1"><label for="kl1">Glasklar</label></span>
+        <span class="pill-choice"><input type="radio" name="klarheit" value="Ungefähr – ich habe eine Idee" id="kl2"><label for="kl2">Ungefähr</label></span>
+        <span class="pill-choice"><input type="radio" name="klarheit" value="Noch gar nicht – ich brauche Hilfe" id="kl3"><label for="kl3">Noch gar nicht</label></span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="q">Was macht dich oder dein Angebot besonders? (USP)</label>
+      <span class="hint">Warum sollte jemand ausgerechnet dir folgen und bei dir kaufen?</span>
+      <textarea name="usp" placeholder="Dein Alleinstellungsmerkmal, deine Stärke, dein Versprechen"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="q">Deine persönliche Story (kurz)</label>
+      <span class="hint">Warum machst du das? Diese Geschichte wird im Plan zu starkem Vertrauens-Content.</span>
+      <textarea name="story" placeholder="Wo standest du, was hat sich verändert, warum hilfst du jetzt anderen?"></textarea>
+    </div>
+  </div>
+
+  <!-- 03 — NISCHEN- & ZIELGRUPPEN-FINDER -->
+  <div class="section">
+    <p class="section-num">03 · Nischen- &amp; Zielgruppen-Finder</p>
+    <h2 class="section-title">Falls du noch unsicher bist</h2>
+    <p class="section-intro">Du kennst deine Zielgruppe noch nicht genau? Völlig okay. Beantworte diese Fragen einfach so gut du kannst &ndash; daraus arbeite ich deine Nische und Zielgruppe für dich heraus. (Wenn dir alles schon glasklar ist, darfst du diesen Block knapp halten.)</p>
+
+    <div class="highlight-box" style="margin-bottom:24px;">
+      <strong>So funktioniert's:</strong> Aus deinen Stärken + dem Problem, das du löst + den Menschen, mit denen du am liebsten arbeitest, ergibt sich fast immer eine klare Zielgruppe. Schreib spontan, was dir einfällt &ndash; es muss nicht perfekt sein.
+    </div>
+
+    <div class="field">
+      <label class="q">Worin bist du gut? Wofür kommen Menschen zu dir? <span class="req">*</span></label>
+      <span class="hint">Deine Stärken, dein Wissen, deine Erfahrung &ndash; auch aus dem Privatleben.</span>
+      <textarea name="finder_staerke" required placeholder="z. B. Ich motiviere Menschen, ich kenne mich mit Ernährung aus, ich höre gut zu …"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="q">Welches Problem kannst oder willst du für andere lösen? <span class="req">*</span></label>
+      <textarea name="finder_problem" required placeholder="Welche Situation verbesserst du? Was wird durch dich leichter?"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="q">Mit welchen Menschen arbeitest du am liebsten? <span class="req">*</span></label>
+      <span class="hint">Wer begeistert dich? Mit wem verstehst du dich auf Anhieb gut?</span>
+      <textarea name="finder_menschen" required placeholder="z. B. junge Mütter, gestresste Selbstständige, Menschen am Neuanfang …"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="q">Wem hast du schon einmal geholfen &ndash; und wobei?</label>
+      <span class="hint">Beruflich oder privat. Wer hat dich schon um Rat gefragt?</span>
+      <textarea name="finder_geholfen" placeholder="Erzähl kurz von einer Person oder Gruppe, der du wirklich weitergeholfen hast."></textarea>
+    </div>
+
+    <div class="field">
+      <label class="q">Welche Verwandlung ermöglichst du? (Vorher → Nachher)</label>
+      <span class="hint">Wo steht jemand, bevor er mit dir arbeitet &ndash; und wo danach?</span>
+      <textarea name="finder_transformation" placeholder="Vorher: … → Nachher: …"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="q">Wenn du nur EINER Art von Person helfen dürftest &ndash; wer wäre das?</label>
+      <span class="hint">Diese eine Frage bringt oft die meiste Klarheit. Trau dich, dich festzulegen.</span>
+      <textarea name="finder_einer" placeholder="Beschreibe diese eine Person so lebendig wie möglich."></textarea>
+    </div>
+  </div>
+
+  <!-- 04 — ZIELGRUPPE -->
+  <div class="section">
+    <p class="section-num">04 · Deine Zielgruppe im Detail</p>
+    <h2 class="section-title">Wen du erreichen willst</h2>
+    <p class="section-intro">Das Herzstück deines Plans. Wenn du deine Zielgruppe schon genau kennst, fülle das hier so ausführlich wie möglich aus. Falls noch nicht: lass die Felder offen oder schreib Stichworte &ndash; ich ergänze sie aus deinem Finder in Block 03.</p>
+
+    <div class="field">
+      <label class="q">Wer ist deine ideale Kundin / dein idealer Kunde?</label>
+      <span class="hint">Alter, Geschlecht, Lebenssituation, Beruf, Familienstand &ndash; so konkret wie möglich.</span>
+      <textarea name="zg_wer" placeholder="z. B. Frauen 38–45, Mütter, berufstätig, suchen nach mehr Eigenständigkeit"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="q">In welcher Lebensphase oder Situation stecken sie gerade?</label>
+      <textarea name="zg_situation" placeholder="Was beschäftigt sie aktuell? An welchem Punkt im Leben stehen sie?"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="q">Was sind ihre größten Probleme &amp; Sorgen?</label>
+      <span class="hint">Pain Points: Was hält sie nachts wach? Was frustriert sie?</span>
+      <textarea name="zg_pains" placeholder="z. B. zu wenig eigenes Geld, das Gefühl, sich selbst verloren zu haben …"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="q">Was sind ihre größten Wünsche &amp; Sehnsüchte?</label>
+      <textarea name="zg_wuensche" placeholder="Wovon träumen sie? Was wäre für sie ein echter Erfolg?"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="q">Welche Einwände, Zweifel oder Skepsis haben sie gegenüber deinem Angebot?</label>
+      <span class="hint">Wichtig für Content, der Vertrauen aufbaut und Mythen entkräftet.</span>
+      <textarea name="zg_einwaende" placeholder="z. B. „Ist das nicht ein Schneeballsystem?“, „Ich habe keine Zeit“, „Ich kann das nicht“"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="q">Wie spricht &amp; denkt deine Zielgruppe?</label>
+      <span class="hint">Typische Sätze, Wortwahl, Tonfall. Hilft, die Hooks passend zu formulieren.</span>
+      <textarea name="zg_sprache" placeholder="Wie würde sie ihr Problem selbst in Worte fassen?"></textarea>
+    </div>
+  </div>
+
+  <!-- 04 — ZIELE -->
+  <div class="section">
+    <p class="section-num">05 · Deine Ziele</p>
+    <h2 class="section-title">Was der Content erreichen soll</h2>
+    <p class="section-intro">Bestimmt die strategische Ausrichtung und die konkreten Empfehlungen im Plan.</p>
+
+    <div class="field">
+      <label class="q">Was ist dein wichtigstes Ziel mit deinem Content? <span class="req">*</span></label>
+      <div class="pills">
+        <span class="pill-choice"><input type="radio" name="ziel_haupt" value="Reichweite & Follower" id="g1"><label for="g1">Reichweite &amp; Follower</label></span>
+        <span class="pill-choice"><input type="radio" name="ziel_haupt" value="Leads / Anfragen" id="g2"><label for="g2">Leads / Anfragen</label></span>
+        <span class="pill-choice"><input type="radio" name="ziel_haupt" value="Verkäufe / Umsatz" id="g3"><label for="g3">Verkäufe / Umsatz</label></span>
+        <span class="pill-choice"><input type="radio" name="ziel_haupt" value="Markenaufbau / Sichtbarkeit" id="g4"><label for="g4">Marke / Sichtbarkeit</label></span>
+        <span class="pill-choice"><input type="radio" name="ziel_haupt" value="Team aufbauen / Recruiting" id="g5"><label for="g5">Team aufbauen</label></span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="q">Hast du ein konkretes Ziel mit Zahl &amp; Zeitrahmen? <span class="req">*</span></label>
+      <span class="hint">Je konkreter, desto messbarer wird dein Plan.</span>
+      <input type="text" name="ziel_zahl" required placeholder="z. B. 10.000 Follower in 6 Monaten · 10 Leads pro Woche">
+    </div>
+
+    <div class="field">
+      <label class="q">Wie wird aus einem Follower ein Lead oder Kunde?</label>
+      <span class="hint">Dein Conversion-Weg &ndash; so plane ich die richtigen Call-to-Actions ein.</span>
+      <div class="pills">
+        <span class="pill-choice"><input type="checkbox" name="conversion" value="DM / Direktnachricht" id="c1"><label for="c1">DM / Direktnachricht</label></span>
+        <span class="pill-choice"><input type="checkbox" name="conversion" value="Freebie / Lead-Magnet" id="c2"><label for="c2">Freebie</label></span>
+        <span class="pill-choice"><input type="checkbox" name="conversion" value="Link in Bio" id="c3"><label for="c3">Link in Bio</label></span>
+        <span class="pill-choice"><input type="checkbox" name="conversion" value="Webinar / Masterclass" id="c4"><label for="c4">Webinar</label></span>
+        <span class="pill-choice"><input type="checkbox" name="conversion" value="Telefonat / Call" id="c5"><label for="c5">Call</label></span>
+        <span class="pill-choice"><input type="checkbox" name="conversion" value="Newsletter / E-Mail" id="c6"><label for="c6">Newsletter</label></span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="q">Hast du bereits ein Freebie oder einen Lead-Magneten?</label>
+      <input type="text" name="freebie" placeholder="z. B. PDF-Guide, Checkliste, kostenloses Erstgespräch &ndash; oder „noch nicht“">
+    </div>
+  </div>
+
+  <!-- 05 — WETTBEWERB -->
+  <div class="section">
+    <p class="section-num">06 · Wettbewerb &amp; Differenzierung</p>
+    <h2 class="section-title">Dein Umfeld</h2>
+    <p class="section-intro">Grundlage für die Wettbewerbsanalyse und deine eigene, freie Positionierung.</p>
+
+    <div class="field">
+      <label class="q">Nenne 2&ndash;3 Accounts in deiner Nische, die du gut findest oder die erfolgreich sind <span class="req">*</span></label>
+      <span class="hint">Profil-Links oder @-Namen. Daran analysiere ich, was funktioniert und wo deine Lücke ist.</span>
+      <textarea name="wettbewerb" required placeholder="@account1&#10;@account2&#10;@account3"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="q">Was machen diese Accounts gut &ndash; und was fehlt dir bei ihnen?</label>
+      <textarea name="wettbewerb_meinung" placeholder="Was gefällt dir? Was würdest du anders / besser machen?"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="q">Wie möchtest du dich von ihnen abheben?</label>
+      <textarea name="differenzierung" placeholder="Deine besondere Position, dein Ton, dein Blickwinkel"></textarea>
+    </div>
+  </div>
+
+  <!-- 06 — CONTENT HEUTE & VORLIEBEN -->
+  <div class="section">
+    <p class="section-num">07 · Dein Content heute &amp; deine Vorlieben</p>
+    <h2 class="section-title">Wie du arbeiten möchtest</h2>
+    <p class="section-intro">Damit der Plan zu dir passt und du ihn auch wirklich umsetzt.</p>
+
+    <div class="field">
+      <label class="q">Was postest du aktuell &ndash; und was lief bisher am besten / am schlechtesten?</label>
+      <textarea name="content_heute" placeholder="Welche Inhalte hatten die meiste Resonanz? Was floppte?"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="q">Wie wohl fühlst du dich vor der Kamera? <span class="req">*</span></label>
+      <div class="pills">
+        <span class="pill-choice"><input type="radio" name="kamera" value="Sehr wohl, ich spreche gern" id="k1"><label for="k1">Sehr wohl</label></span>
+        <span class="pill-choice"><input type="radio" name="kamera" value="Geht so, mit etwas Übung" id="k2"><label for="k2">Geht so</label></span>
+        <span class="pill-choice"><input type="radio" name="kamera" value="Lieber ohne Gesicht / nur Stimme" id="k3"><label for="k3">Lieber ohne Gesicht</label></span>
+        <span class="pill-choice"><input type="radio" name="kamera" value="Gar nicht, lieber Text & Grafik" id="k4"><label for="k4">Gar nicht</label></span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="q">Welche Formate magst du / möchtest du nutzen?</label>
+      <div class="pills">
+        <span class="pill-choice"><input type="checkbox" name="formate" value="Reels / kurze Videos" id="f1"><label for="f1">Reels</label></span>
+        <span class="pill-choice"><input type="checkbox" name="formate" value="Karussells" id="f2"><label for="f2">Karussells</label></span>
+        <span class="pill-choice"><input type="checkbox" name="formate" value="Single Image / Grafik" id="f3"><label for="f3">Single Image</label></span>
+        <span class="pill-choice"><input type="checkbox" name="formate" value="Stories" id="f4"><label for="f4">Stories</label></span>
+        <span class="pill-choice"><input type="checkbox" name="formate" value="Live" id="f5"><label for="f5">Live</label></span>
+        <span class="pill-choice"><input type="checkbox" name="formate" value="Längere Texte / Captions" id="f6"><label for="f6">Längere Texte</label></span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="q">Welche Tonalität passt zu dir &amp; deiner Marke? <span class="req">*</span></label>
+      <div class="pills">
+        <span class="pill-choice"><input type="checkbox" name="tonalitaet" value="Ehrlich & nahbar" id="t1"><label for="t1">Ehrlich &amp; nahbar</label></span>
+        <span class="pill-choice"><input type="checkbox" name="tonalitaet" value="Edel & luxuriös" id="t2"><label for="t2">Edel &amp; luxuriös</label></span>
+        <span class="pill-choice"><input type="checkbox" name="tonalitaet" value="Verspielt & locker" id="t3"><label for="t3">Verspielt &amp; locker</label></span>
+        <span class="pill-choice"><input type="checkbox" name="tonalitaet" value="Sachlich & expertig" id="t4"><label for="t4">Sachlich &amp; expertig</label></span>
+        <span class="pill-choice"><input type="checkbox" name="tonalitaet" value="Spirituell & sanft" id="t5"><label for="t5">Spirituell &amp; sanft</label></span>
+        <span class="pill-choice"><input type="checkbox" name="tonalitaet" value="Motivierend & energetisch" id="t6"><label for="t6">Motivierend</label></span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="q">Gibt es Themen, Worte oder Stile, die auf keinen Fall vorkommen sollen? (No-Gos)</label>
+      <textarea name="nogos" placeholder="z. B. kein Druck, keine Reichtums-Versprechen, kein Duzen …"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="q">Markenfarben / Ästhetik (optional)</label>
+      <input type="text" name="aesthetik" placeholder="z. B. warme Erdtöne, minimalistisch · oder Link zu deinem Moodboard">
+    </div>
+  </div>
+
+  <!-- 07 — SONSTIGES -->
+  <div class="section">
+    <p class="section-num">08 · Letzte Details &amp; Lieferung</p>
+    <h2 class="section-title">Fast geschafft</h2>
+    <p class="section-intro">Damit ich nichts Wichtiges übersehe und dir den Plan zustellen kann.</p>
+
+    <div class="field">
+      <label class="q">Stehen demnächst Launches, Aktionen oder saisonale Themen an?</label>
+      <textarea name="launches" placeholder="z. B. neues Angebot im Juli, Sommer-Aktion, Webinar im nächsten Monat"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="q">Gibt es sonst noch etwas, das ich für deinen Plan wissen sollte?</label>
+      <textarea name="sonstiges" placeholder="Alles, was dir wichtig ist und oben nicht gepasst hat."></textarea>
+    </div>
+
+    <div class="field">
+      <label class="q">An welche E-Mail-Adresse soll ich deinen Fahrplan schicken? <span class="req">*</span></label>
+      <input type="email" name="email" required placeholder="deine@email.de">
+    </div>
+
+    <div class="highlight-box">
+      <strong>Tipp:</strong> Je ehrlicher und konkreter deine Antworten in Block 03 (Zielgruppe) und 04 (Ziele), desto treffsicherer wird dein Fahrplan. Lieber zwei Sätze mehr als zu allgemein.
+    </div>
+  </div>
+
+  <div class="submit-wrap">
+    <button type="submit" class="btn">Antworten abschließen &amp; Briefing erstellen</button>
+  </div>
+
+</form>
+
+<!-- RESULT -->
+<div class="result" id="result">
+  <h3>Dein Briefing ist fertig ✦</h3>
+  <p class="sub">Kopiere den Text unten und schick ihn mir &ndash; oder nutze den E-Mail-Button. Damit habe ich alles, was ich für deinen Fahrplan brauche.</p>
+  <div class="brief" id="briefText"></div>
+  <div class="result-actions">
+    <button class="btn" id="copyBtn" type="button">📋 Briefing kopieren</button>
+    <button class="btn secondary" id="mailBtn" type="button">✉️ Per E-Mail senden</button>
+  </div>
+  <p class="toast" id="toast">Kopiert! Füge es in deine Nachricht an mich ein.</p>
+</div>
+
+</div><!-- container -->
+
+<div class="footer">
+  <strong>Onboarding-Fragebogen</strong> · Dein datenbasierter Content-Fahrplan<br>
+  Deine Angaben werden ausschließlich zur Erstellung deines individuellen Plans verwendet.
+</div>
+
+<script>
+  // ───────────────────────────────────────────────
+  //  HIER DEINE E-MAIL EINTRAGEN (für den E-Mail-Button):
+  const DEINE_EMAIL = "deine@email.de";
+  // ───────────────────────────────────────────────
+
+  const form = document.getElementById('briefForm');
+  const result = document.getElementById('result');
+  const briefText = document.getElementById('briefText');
+  const toast = document.getElementById('toast');
+
+  const labels = {
+    name: "Name", plattform: "Plattform(en)", profil: "Profil-Link",
+    follower: "Aktuelle Follower", aktivseit: "Aktiv seit", zeit: "Zeit pro Woche",
+    nische: "Nische", angebot: "Angebot / Produkt", region: "Region & Sprache",
+    klarheit: "Klarheit über Zielgruppe",
+    usp: "USP / Besonderheit", story: "Persönliche Story",
+    finder_staerke: "Finder – Stärken / wofür man zu dir kommt",
+    finder_problem: "Finder – Problem, das du löst",
+    finder_menschen: "Finder – Mit wem du am liebsten arbeitest",
+    finder_geholfen: "Finder – Wem du schon geholfen hast",
+    finder_transformation: "Finder – Transformation (Vorher → Nachher)",
+    finder_einer: "Finder – Wenn nur EINER Person helfen: wer?",
+    zg_wer: "Zielgruppe – Wer", zg_situation: "Zielgruppe – Lebensphase",
+    zg_pains: "Zielgruppe – Pain Points", zg_wuensche: "Zielgruppe – Wünsche",
+    zg_einwaende: "Zielgruppe – Einwände", zg_sprache: "Zielgruppe – Sprache/Tonfall",
+    ziel_haupt: "Hauptziel", ziel_zahl: "Konkretes Ziel (Zahl/Zeit)",
+    conversion: "Conversion-Weg", freebie: "Freebie / Lead-Magnet",
+    wettbewerb: "Vergleichs-Accounts", wettbewerb_meinung: "Bewertung Wettbewerb",
+    differenzierung: "Differenzierung", content_heute: "Aktueller Content",
+    kamera: "Kamera-Komfort", formate: "Bevorzugte Formate", tonalitaet: "Tonalität",
+    nogos: "No-Gos", aesthetik: "Markenfarben / Ästhetik",
+    launches: "Launches / Saisonales", sonstiges: "Sonstiges", email: "E-Mail für Lieferung"
+  };
+
+  const order = Object.keys(labels);
+
+  function buildBrief() {
+    const data = new FormData(form);
+    let out = "═══ CONTENT-FAHRPLAN · KUNDEN-BRIEFING ═══\n\n";
+    order.forEach(key => {
+      const vals = data.getAll(key).filter(v => v.trim() !== "");
+      if (vals.length) {
+        out += "▸ " + labels[key] + ":\n  " + vals.join(", ").replace(/\n/g, "\n  ") + "\n\n";
+      }
+    });
+    return out.trim();
+  }
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    briefText.textContent = buildBrief();
+    result.style.display = "block";
+    result.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  document.getElementById('copyBtn').addEventListener('click', function() {
+    navigator.clipboard.writeText(briefText.textContent).then(() => {
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    });
+  });
+
+  document.getElementById('mailBtn').addEventListener('click', function() {
+    const subject = encodeURIComponent("Mein Briefing für den Content-Fahrplan");
+    const body = encodeURIComponent(briefText.textContent);
+    window.location.href = "mailto:" + DEINE_EMAIL + "?subject=" + subject + "&body=" + body;
+  });
+</script>
+
+</body>
+</html>
